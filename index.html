@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sangavi Sambath Kumar: data science, machine learning and generative AI portfolio.">
+<title>Sangavi Sambath Kumar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: floating pill nav; 1100px container; two-column hero (title left, intro right), skills marquee, then stacked sections with small caramel eyebrow + light heading; 2-up project cards. Dark-first, neutral greys with a caramel accent. */
+:root {
+  --bg: #111111;
+  --panel: #1a1a1a;
+  --panel-2: #202020;
+  --fg: #ececec;
+  --muted: #9a9a9a;
+  --line: #262626;
+  --accent: #d9a066;
+  --nav: rgba(24, 24, 24, 0.78);
+  --font: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f3e8da; --panel: #fbf4ea; --panel-2: #ecdcc8; --fg: #2b1d12; --muted: #74604c; --line: #e1cfb9;
+    --accent: #9a5a1c; --nav: rgba(251, 244, 234, 0.86); color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f3e8da; --panel: #fbf4ea; --panel-2: #ecdcc8; --fg: #2b1d12; --muted: #74604c; --line: #e1cfb9;
+  --accent: #9a5a1c; --nav: rgba(251, 244, 234, 0.86); color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+html { scroll-padding-top: 90px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 15px; font-weight: 400; line-height: 1.7; padding: 0 20px; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+h1, h2, h3 { margin: 0; font-weight: 400; text-wrap: balance; }
+
+.container { max-width: 1100px; margin: 0 auto; }
+
+/* Nav */
+.nav {
+  position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); z-index: 20;
+  display: flex; align-items: center; gap: 4px; padding: 6px 10px; border-radius: 999px; max-width: calc(100% - 32px);
+  background: var(--nav); border: 1px solid var(--line); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.nav a { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; text-decoration: none; font-size: 0.84rem; color: var(--muted); white-space: nowrap; }
+.nav a::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: transparent; transition: background .2s; }
+.nav a.active { color: var(--fg); }
+.nav a.active::before { background: var(--accent); }
+.nav a:hover { color: var(--fg); }
+.nav button { width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.nav button:hover { color: var(--fg); }
+.nav button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Hero */
+.hero { padding-block: 150px 40px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 56px; align-items: start; }
+.hero h1 { font-size: clamp(2rem, 4.4vw, 2.9rem); line-height: 1.15; font-weight: 400; letter-spacing: -0.01em; }
+.wave { display: inline-block; transform-origin: 60% 85%; }
+@media (prefers-reduced-motion: no-preference) { .wave { animation: wave 2.2s ease-in-out infinite; } }
+@keyframes wave { 0%, 55%, 100% { transform: rotate(0); } 10% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 30% { transform: rotate(14deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
+.hero .intro { margin: 0; font-size: 1.05rem; color: var(--muted); padding-top: 8px; }
+.hero .intro b { color: var(--fg); font-weight: 500; }
+.socials { display: flex; gap: 10px; flex-wrap: wrap; grid-column: 1; }
+.sq {
+  width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; text-decoration: none;
+  background: var(--panel); border: 1px solid var(--line); color: var(--fg); transition: border-color .2s, transform .2s;
+}
+.sq:hover { border-color: var(--accent); transform: translateY(-2px); }
+.sq svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Marquee */
+.marquee { overflow: hidden; border-block: 1px solid var(--line); padding-block: 14px; margin-bottom: 24px;
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.track { display: flex; gap: 44px; width: max-content; }
+.track span { font-size: 0.92rem; color: var(--muted); white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; }
+.track span::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); opacity: .8; }
+@media (prefers-reduced-motion: no-preference) { .track { animation: slide 38s linear infinite; } }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* Sections */
+section { padding-block: 64px; border-top: 1px solid var(--line); display: grid; gap: 28px; }
+.eyebrow { margin: 0 0 4px; font-size: 0.85rem; color: var(--accent); }
+.title { font-size: clamp(1.8rem, 4vw, 2.4rem); line-height: 1.2; letter-spacing: -0.01em; }
+.about-text { margin: 0; max-width: 62ch; font-size: 1.02rem; color: var(--fg); line-height: 1.85; }
+.about-text a { color: var(--accent); text-underline-offset: 4px; }
+
+/* Experience + education rows */
+.rows { display: grid; gap: 14px; }
+.row { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; gap: 2px 16px; align-items: center; }
+.logo { width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; font-weight: 600; font-size: 0.95rem; color: #fff; }
+.row .t { font-size: 0.98rem; font-weight: 500; }
+.row .s { font-size: 0.82rem; color: var(--muted); }
+.row .d { font-size: 0.8rem; color: var(--muted); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.row .d span { display: block; }
+.row ul { grid-column: 2 / -1; margin: 10px 0 0; padding-left: 1rem; color: var(--muted); font-size: 0.86rem; display: grid; gap: 3px; }
+.row li::marker { color: var(--accent); }
+.row .s { overflow-wrap: anywhere; }
+.verify { color: var(--accent); font-weight: 500; text-decoration: none; }
+.verify:hover { text-decoration: underline; }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.skill { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+.skill i { font-style: normal; font-size: 1.05rem; }
+.skill small { color: var(--accent); font-size: 0.75rem; }
+.sub { margin: 4px 0 0; font-size: 0.82rem; color: var(--muted); }
+
+/* Projects */
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; }
+.card { display: grid; gap: 12px; align-content: start; }
+.thumb { display: block; border-radius: 16px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); aspect-ratio: 2 / 1; max-width: 100%; transition: transform .25s; }
+.thumb:hover { transform: scale(1.01); }
+.thumb svg { display: block; width: 100%; height: 100%; }
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-inline: 4px; }
+.card h3 { font-size: 1.08rem; font-weight: 500; line-height: 1.35; }
+.card .status { font-size: 0.78rem; color: var(--muted); }
+.icons { display: flex; gap: 8px; flex: none; }
+.icons a { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); color: var(--fg); }
+.icons a:hover { border-color: var(--accent); }
+.icons svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.card p { margin: 0; padding-inline: 4px; font-size: 0.86rem; color: var(--muted); line-height: 1.65; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; padding-inline: 4px; }
+.tags span { font-size: 0.7rem; color: var(--fg); background: var(--panel-2); border-radius: 6px; padding: 2px 8px; }
+.more { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--panel); text-decoration: none; color: var(--muted); font-size: 0.92rem; }
+.more:hover { color: var(--fg); border-color: var(--accent); }
+.more svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Blogs */
+.blog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.post { display: grid; gap: 6px; text-decoration: none; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; transition: border-color .2s; }
+.post:hover { border-color: var(--accent); }
+.post .pd { font-size: 0.75rem; color: var(--accent); font-variant-numeric: tabular-nums; }
+.post .pt { font-size: 0.98rem; font-weight: 500; line-height: 1.4; }
+.post .ps { font-size: 0.83rem; color: var(--muted); }
+
+/* Contact */
+.contact { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px 56px; align-items: start; }
+.contact .lead { margin: 14px 0 0; color: var(--muted); max-width: 46ch; }
+.contact-list { display: grid; gap: 10px; }
+.ci { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; text-decoration: none; }
+a.ci:hover { border-color: var(--accent); }
+.ci .em { font-size: 1.2rem; text-align: center; }
+.ci .k { font-size: 0.72rem; color: var(--muted); display: block; }
+.ci .v { font-size: 0.9rem; overflow-wrap: anywhere; }
+.copy { font: 500 0.72rem var(--font); background: transparent; color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+.copy:hover { border-color: var(--accent); }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 0.8rem; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 120px 28px; }
+  .hero .intro { padding-top: 0; }
+  .grid, .blog-grid { grid-template-columns: minmax(0, 1fr); }
+  .contact { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .nav a { padding: 6px 9px; font-size: 0.78rem; }
+  .nav a::before { display: none; }
+  .nav a.active { color: var(--accent); }
+  .row { grid-template-columns: 40px minmax(0, 1fr); }
+  .row .d { grid-column: 2; text-align: left; }
+  .row ul { grid-column: 1 / -1; }
+  section { padding-block: 52px; }
+}
+@media (max-width: 420px) { .nav .hide-sm { display: none; } }
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.4-4 4.4-6 8-6s6.6 2 8 6"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="m13.5 6.5 4 4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+</svg>
+
+<nav class="nav" aria-label="Sections">
+  <a href="#home" class="active">Home</a>
+  <a href="#experience" class="hide-sm">Experience</a>
+  <a href="#projects">Projects</a>
+  <a href="#blogs" class="hide-sm">Blogs</a>
+  <a href="#contact">Contact</a>
+  <button type="button" id="theme" title="Switch theme"><svg aria-hidden="true"><use id="theme-icon" href="#i-sun"/></svg><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Switch theme</span></button>
+</nav>
+
+<div class="container">
+  <header class="hero" id="home">
+    <div>
+      <h1>Hi, I am Sangavi Sambath Kumar <span class="wave" aria-hidden="true">🙋‍♀️</span></h1>
+    </div>
+    <p class="intro">I turn <b>messy data</b> into models, dashboards and decisions people can act on, with machine learning and generative AI in Python and SQL.</p>
+    <div class="socials">
+      <a class="sq" href="https://github.com/Sangavisambathkumar" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg aria-hidden="true"><use href="#i-code"/></svg></a>
+      <a class="sq" href="https://www.linkedin.com/in/sangavisambathkumar/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn"><svg aria-hidden="true"><use href="#i-person"/></svg></a>
+      <a class="sq" href="#contact" title="Email" aria-label="Email"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
+      <a class="sq" href="https://beantechtalk.blogspot.com/" target="_blank" rel="noopener" title="Blog" aria-label="Blog"><svg aria-hidden="true"><use href="#i-pen"/></svg></a>
+    </div>
+  </header>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>Python</span><span>SQL</span><span>Power BI</span><span>Scikit-learn</span><span>Azure Databricks</span><span>Machine Learning</span><span>Generative AI</span><span>Streamlit</span><span>Agile</span>
+      <span>Python</span><span>SQL</span><span>Power BI</span><span>Scikit-learn</span><span>Azure Databricks</span><span>Machine Learning</span><span>Generative AI</span><span>Streamlit</span><span>Agile</span>
+    </div>
+  </div>
+
+  <section id="about">
+    <h2 class="title">The sum of my parts</h2>
+    <p class="about-text">The OCD to clean, arrange, and make data look appealing? That’s my actual obsession! ✨ And evidence-based therapy? That’s all it needs! Want me to spill a bean? 🫘 <a href="https://beantechtalk.blogspot.com/" target="_blank" rel="noopener">I write blogs too!</a> ✏️ That’s my little sideline!</p>
+  </section>
+
+  <section id="experience">
+    <h2 class="title">Experience</h2>
+    <div class="rows">
+      <div class="row">
+        <div class="logo" style="background:#4a5bd4" aria-hidden="true">M</div>
+        <div><div class="t">Mphasis · client: Klarna</div><div class="s">Tr. Foreign Language Officer, Dispute Analyst</div></div>
+        <div class="d">Aug 2022 – Jul 2023<span>Bengaluru, India</span></div>
+        <ul>
+          <li>First point of contact for German-speaking customers on Klarna's global BNPL fintech platform.</li>
+          <li>Resolved 80–100+ payment, pricing and chargeback cases a day, intake to resolution.</li>
+          <li>Analyzed transaction data and case trends for root causes and fraud risks, resolving issues 15% faster.</li>
+          <li>95%+ quality scores and 98% SLA compliance under data privacy standards; R&amp;R award.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2 class="title">Education</h2>
+    <div class="rows">
+      <div class="row">
+        <div class="logo" style="background:#1d7a66" aria-hidden="true">L</div>
+        <div><div class="t">Lambton College</div><div class="s">Graduate Certificate, Big Data Analytics</div></div>
+        <div class="d">Sep 2023 – Apr 2025<span>Mississauga, ON</span></div>
+        <ul>
+          <li>Big data and engineering: Hadoop, Spark, NoSQL, algorithms and statistics, Tableau and Power BI.</li>
+          <li>AI and ML: Python AI/ML tools, neural networks and deep learning, NLP, capstone and WIL project.</li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="logo" style="background:#a4561c" aria-hidden="true">B</div>
+        <div><div class="t">Bharathiar University</div><div class="s">Bachelor of Science, Mathematics</div></div>
+        <div class="d">Aug 2019 – Jul 2022<span>Tamil Nadu, India</span></div>
+        <ul>
+          <li>Calculus, modern algebra, real and complex analysis, differential equations and Laplace transforms.</li>
+          <li>Discrete mathematics, programming in C, statics and dynamics.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <h2 class="title">Certifications</h2>
+    <div class="rows">
+      <div class="row">
+        <div class="logo" style="background:#6b4bd1" aria-hidden="true">🤖</div>
+        <div><div class="t">Course Certificate: Understanding Agentic AI</div><div class="s">Digital Workforce Services Plc · Credential ID 67432c58827e1409ba0ccf8a</div></div>
+        <div class="d">Oct 2026<span><a class="verify" href="https://mycourse.app/6Vimf5UirCHN7xJuc" target="_blank" rel="noopener">Verify ↗</a></span></div>
+      </div>
+      <div class="row">
+        <div class="logo" style="background:#c46b3c" aria-hidden="true">🔌</div>
+        <div><div class="t">Course Certificate: Model Context Protocol: Advanced Topics</div><div class="s">Anthropic · Credential ID ekv3maxy3vu7</div></div>
+        <div class="d">Oct 2026<span><a class="verify" href="https://verify.skilljar.com/c/ekv3maxy3vu7" target="_blank" rel="noopener">Verify ↗</a></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2 class="title">A dab hand at</h2>
+    <div class="skills">
+      <div class="skill"><i aria-hidden="true">🐍</i>Python</div>
+      <div class="skill"><i aria-hidden="true">🗄️</i>SQL</div>
+      <div class="skill"><i aria-hidden="true">📊</i>Power BI</div>
+      <div class="skill"><i aria-hidden="true">🤖</i>Scikit-learn</div>
+      <div class="skill"><i aria-hidden="true">☁️</i>Azure Databricks</div>
+      <div class="skill"><i aria-hidden="true">🔁</i>Agile</div>
+      <div class="skill"><i aria-hidden="true">💳</i>Chargeback</div>
+    </div>
+    <div>
+      <p class="sub">Languages</p>
+      <div class="skills" style="margin-top:10px">
+        <div class="skill"><i aria-hidden="true">🇬🇧</i>English</div>
+        <div class="skill"><i aria-hidden="true">🇩🇪</i>German</div>
+        <div class="skill"><i aria-hidden="true">🇫🇷</i>French <small>A2</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="title">Go the extra mile</h2>
+    <div class="grid">
+      <article class="card">
+        <a class="thumb" href="https://github.com/Sangavisambathkumar/quest-metrics-player-analytics" target="_blank" rel="noopener" aria-label="Quest Metrics on GitHub"><svg viewBox="0 0 400 200" role="img" aria-label="Retention bars and churn model score">
+            <rect width="400" height="200" fill="#0f1e33"/>
+            <g fill="#2a4d7f"><rect x="40" y="62" width="56" height="108" rx="4"/><rect x="116" y="103" width="56" height="67" rx="4"/><rect x="192" y="131" width="56" height="39" rx="4"/></g>
+            <g fill="#8fb7ff" font-family="Montserrat, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><text x="68" y="54">58%</text><text x="144" y="95">36%</text><text x="220" y="123">21%</text></g>
+            <g fill="#6f87ad" font-family="Montserrat, sans-serif" font-size="11" text-anchor="middle"><text x="68" y="186">Day 1</text><text x="144" y="186">Day 7</text><text x="220" y="186">Day 30</text></g>
+            <text x="350" y="92" fill="#ffffff" font-family="Montserrat, sans-serif" font-size="38" font-weight="800" text-anchor="end">0.82</text>
+            <text x="350" y="114" fill="#8fb7ff" font-family="Montserrat, sans-serif" font-size="12" font-weight="600" text-anchor="end">ROC-AUC · churn</text>
+            <text x="350" y="150" fill="#6f87ad" font-family="Montserrat, sans-serif" font-size="11" text-anchor="end">203 bots flagged</text>
+          </svg></a>
+        <div class="card-head">
+          <div><h3>Quest Metrics: Player Analytics</h3><div class="status">Analytics &amp; ML · WIL case study</div></div>
+          <div class="icons"><a href="https://github.com/Sangavisambathkumar/quest-metrics-player-analytics" target="_blank" rel="noopener" title="Source code" aria-label="Quest Metrics source code"><svg aria-hidden="true"><use href="#i-code"/></svg></a></div>
+        </div>
+        <p>End-to-end pipeline on 12,000 simulated players (~1M rows): SQL warehouse, retention KPIs, churn prediction (ROC-AUC 0.82, precision 0.87, recall 0.77), Isolation Forest bot detection and K-Means segments in a Streamlit dashboard with CI tests.</p>
+        <div class="tags"><span>Python</span><span>SQL</span><span>Scikit-learn</span><span>Plotly</span><span>Streamlit</span><span>pytest</span><span>GitHub Actions</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://github.com/Sangavisambathkumar/ATS-Application" target="_blank" rel="noopener" aria-label="ATS Resume Score Predictor on GitHub"><svg viewBox="0 0 400 200" role="img" aria-label="Resume document with match score gauge">
+            <rect width="400" height="200" fill="#1e1430"/>
+            <rect x="52" y="28" width="120" height="150" rx="8" fill="#2d2147"/>
+            <g fill="#5d4a8a"><rect x="68" y="46" width="70" height="8" rx="4"/><rect x="68" y="66" width="88" height="5" rx="2.5"/><rect x="68" y="78" width="80" height="5" rx="2.5"/><rect x="68" y="90" width="86" height="5" rx="2.5"/><rect x="68" y="110" width="60" height="5" rx="2.5"/><rect x="68" y="122" width="84" height="5" rx="2.5"/><rect x="68" y="134" width="72" height="5" rx="2.5"/></g>
+            <g fill="#c9a7ff"><rect x="68" y="78" width="34" height="5" rx="2.5"/><rect x="104" y="122" width="40" height="5" rx="2.5"/></g>
+            <circle cx="282" cy="104" r="52" fill="none" stroke="#3a2b5c" stroke-width="12"/>
+            <circle cx="282" cy="104" r="52" fill="none" stroke="#c9a7ff" stroke-width="12" stroke-linecap="round" stroke-dasharray="245 327" transform="rotate(-90 282 104)"/>
+            <text x="282" y="104" fill="#ffffff" font-family="Montserrat, sans-serif" font-size="20" font-weight="800" text-anchor="middle">Match</text>
+            <text x="282" y="122" fill="#c9a7ff" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Gemini + Keras</text>
+          </svg></a>
+        <div class="card-head">
+          <div><h3>ATS Resume Score Predictor</h3><div class="status">Generative AI · Sep – Dec 2024</div></div>
+          <div class="icons"><a href="https://github.com/Sangavisambathkumar/ATS-Application" target="_blank" rel="noopener" title="Source code" aria-label="ATS Resume Score Predictor source code"><svg aria-hidden="true"><use href="#i-code"/></svg></a></div>
+        </div>
+        <p>Streamlit app that scores a resume against a job description. Gemini (via prompt engineering) extracts skills and experience, spaCy cleans the text, and a Keras neural network outputs the match score.</p>
+        <div class="tags"><span>Gemini API</span><span>Prompt Engineering</span><span>spaCy</span><span>TensorFlow/Keras</span><span>Streamlit</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://github.com/Sangavisambathkumar/Pneumonia-Detection" target="_blank" rel="noopener" aria-label="Pneumonia Detection on GitHub"><svg viewBox="0 0 400 200" role="img" aria-label="Image tiles with highlighted regions and three class labels">
+            <rect width="400" height="200" fill="#0e2422"/>
+            <g id="tiles">
+              <rect x="40" y="30" width="140" height="140" rx="10" fill="#183a36"/>
+              <g fill="#2a5b55"><rect x="54" y="44" width="30" height="30" rx="4"/><rect x="95" y="44" width="30" height="30" rx="4"/><rect x="136" y="44" width="30" height="30" rx="4"/><rect x="54" y="85" width="30" height="30" rx="4"/><rect x="136" y="85" width="30" height="30" rx="4"/><rect x="54" y="126" width="30" height="30" rx="4"/><rect x="95" y="126" width="30" height="30" rx="4"/></g>
+              <g fill="#ffb454" opacity=".9"><rect x="95" y="85" width="30" height="30" rx="4"/><rect x="136" y="126" width="30" height="30" rx="4"/></g>
+            </g>
+            <g font-family="Montserrat, sans-serif" font-size="13" font-weight="600">
+              <rect x="214" y="48" width="140" height="28" rx="7" fill="#183a36"/><text x="228" y="67" fill="#8fd5c8">Normal</text>
+              <rect x="214" y="86" width="140" height="28" rx="7" fill="#ffb454"/><text x="228" y="105" fill="#2a1a00">Bacterial ✓</text>
+              <rect x="214" y="124" width="140" height="28" rx="7" fill="#183a36"/><text x="228" y="143" fill="#8fd5c8">Viral</text>
+            </g>
+            <text x="354" y="186" fill="#8fd5c8" font-family="Montserrat, sans-serif" font-size="11" text-anchor="end">92%+ accuracy · LIME</text>
+          </svg></a>
+        <div class="card-head">
+          <div><h3>Pneumonia Detection</h3><div class="status">Deep learning · Computer vision</div></div>
+          <div class="icons"><a href="https://github.com/Sangavisambathkumar/Pneumonia-Detection" target="_blank" rel="noopener" title="Source code" aria-label="Pneumonia Detection source code"><svg aria-hidden="true"><use href="#i-code"/></svg></a></div>
+        </div>
+        <p>CNN with VGG16 transfer learning that classifies chest X-rays as normal, bacterial or viral pneumonia with 92%+ accuracy. LIME shows which regions drove each prediction; a Dash app serves it.</p>
+        <div class="tags"><span>CNN</span><span>VGG16</span><span>Transfer Learning</span><span>LIME</span><span>Dash</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://github.com/Sangavisambathkumar/used-car-price-prediction" target="_blank" rel="noopener" aria-label="Used Car Price Prediction on GitHub"><svg viewBox="0 0 400 200" role="img" aria-label="Scatter plot of price against mileage with fitted line">
+            <rect width="400" height="200" fill="#2a1a10"/>
+            <path d="M44 24v146h300" fill="none" stroke="#5c3f2a" stroke-width="2"/>
+            <g fill="#e0915a" opacity=".85">
+              <circle cx="66" cy="44" r="4"/><circle cx="82" cy="58" r="4"/><circle cx="98" cy="50" r="4"/><circle cx="112" cy="70" r="4"/><circle cx="128" cy="66" r="4"/><circle cx="140" cy="84" r="4"/><circle cx="158" cy="80" r="4"/><circle cx="170" cy="98" r="4"/><circle cx="186" cy="92" r="4"/><circle cx="200" cy="110" r="4"/><circle cx="216" cy="104" r="4"/><circle cx="230" cy="122" r="4"/><circle cx="246" cy="118" r="4"/><circle cx="262" cy="134" r="4"/><circle cx="278" cy="128" r="4"/><circle cx="296" cy="146" r="4"/><circle cx="312" cy="140" r="4"/><circle cx="326" cy="156" r="4"/>
+            </g>
+            <path d="M58 46 334 156" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="6 5"/>
+            <text x="340" y="48" fill="#ffffff" font-family="Montserrat, sans-serif" font-size="30" font-weight="800" text-anchor="end">R² 0.86</text>
+            <text x="194" y="190" fill="#a8775a" font-family="Montserrat, sans-serif" font-size="11" text-anchor="middle">mileage → price</text>
+          </svg></a>
+        <div class="card-head">
+          <div><h3>Used Car Price Prediction</h3><div class="status">Machine learning · REST API</div></div>
+          <div class="icons"><a href="https://github.com/Sangavisambathkumar/used-car-price-prediction" target="_blank" rel="noopener" title="Source code" aria-label="Used Car Price Prediction source code"><svg aria-hidden="true"><use href="#i-code"/></svg></a></div>
+        </div>
+        <p>Explored in PySpark, then a scikit-learn pipeline compares Ridge, Random Forest and Gradient Boosting on R², MAE and RMSE (R² 0.86) and serves the best through a Flask JSON API.</p>
+        <div class="tags"><span>PySpark</span><span>Scikit-learn</span><span>Random Forest</span><span>joblib</span><span>Flask</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://github.com/Sangavisambathkumar/restaurant-recommendation-system" target="_blank" rel="noopener" aria-label="Restaurant Recommendation System on GitHub"><svg viewBox="0 0 400 200" role="img" aria-label="Points with a query point linked to its nearest neighbours">
+            <rect width="400" height="200" fill="#2b1020"/>
+            <g fill="#6b3552"><circle cx="40" cy="40" r="5"/><circle cx="90" cy="150" r="5"/><circle cx="120" cy="60" r="5"/><circle cx="330" cy="40" r="5"/><circle cx="360" cy="160" r="5"/><circle cx="300" cy="170" r="5"/><circle cx="60" cy="100" r="5"/><circle cx="350" cy="100" r="5"/><circle cx="150" cy="175" r="5"/><circle cx="250" cy="30" r="5"/></g>
+            <g stroke="#ff7eb6" stroke-width="2"><path d="M200 100 166 72"/><path d="M200 100 244 82"/><path d="M200 100 176 136"/><path d="M200 100 236 134"/><path d="M200 100 262 108"/></g>
+            <g fill="#ff7eb6"><circle cx="166" cy="72" r="6"/><circle cx="244" cy="82" r="6"/><circle cx="176" cy="136" r="6"/><circle cx="236" cy="134" r="6"/><circle cx="262" cy="108" r="6"/></g>
+            <circle cx="200" cy="100" r="11" fill="#ffffff"/>
+            <text x="380" y="190" fill="#c97aa0" font-family="Montserrat, sans-serif" font-size="11" text-anchor="end">KNN + TF-IDF · 100K+ Yelp records</text>
+          </svg></a>
+        <div class="card-head">
+          <div><h3>Restaurant Recommendation System</h3><div class="status">Recommendation systems · NLP</div></div>
+          <div class="icons"><a href="https://github.com/Sangavisambathkumar/restaurant-recommendation-system" target="_blank" rel="noopener" title="Source code" aria-label="Restaurant Recommendation System source code"><svg aria-hidden="true"><use href="#i-code"/></svg></a></div>
+        </div>
+        <p>Recommends restaurants from 100K+ Yelp records by pairing KNN on food categories with TF-IDF matching of a user's own description against reviews, lifting relevancy by 35%.</p>
+        <div class="tags"><span>KNN</span><span>TF-IDF</span><span>NLTK</span><span>Pandas</span><span>Streamlit</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://beantechtalk.blogspot.com/" target="_blank" rel="noopener" aria-label="The Easy Byte blog">
+          <svg viewBox="0 0 400 200" role="img" aria-label="Blog title card"><rect width="400" height="200" fill="#1f1610"/><text x="40" y="92" fill="#f4ece3" font-family="Montserrat, sans-serif" font-size="32" font-weight="500">The Easy Byte</text><text x="40" y="120" fill="#d9a066" font-family="Montserrat, sans-serif" font-size="13">Technology, explained in plain language</text><text x="352" y="170" font-size="34" text-anchor="end">🫘</text></svg>
+        </a>
+        <div class="card-head">
+          <div><h3>The Easy Byte</h3><div class="status">My blog · Tech explained</div></div>
+          <div class="icons"><a href="https://beantechtalk.blogspot.com/" target="_blank" rel="noopener" title="Visit blog" aria-label="Visit the blog"><svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </div>
+        <p>The history of technology and the hidden tech in everyday things, from stone tools to GPS, written in plain language.</p>
+        <div class="tags"><span>Technical Writing</span><span>Communication</span></div>
+      </article>
+    </div>
+    <a class="more" href="https://github.com/Sangavisambathkumar" target="_blank" rel="noopener">More projects on GitHub <svg aria-hidden="true"><use href="#i-code"/></svg></a>
+  </section>
+
+  <section id="blogs">
+    <h2 class="title">Blogs</h2>
+    <div class="grid">
+      <article class="card">
+        <a class="thumb" href="https://beantechtalk.blogspot.com/2026/09/the-hidden-technologies-you-use-every.html" target="_blank" rel="noopener" aria-label="Read: The Hidden Technologies You Use Every Day">
+          <svg viewBox="0 0 400 200" role="img" aria-label="Phone with a location pin and a satellite overhead">
+            <rect width="400" height="200" fill="#13263a"/>
+            <g fill="none" stroke="#2c4d70" stroke-width="1.5" stroke-dasharray="4 6"><path d="M60 190 Q200 -40 340 190"/><path d="M110 190 Q200 40 290 190"/></g>
+            <g transform="translate(276 38) rotate(28)">
+              <rect x="-10" y="-8" width="20" height="16" rx="3" fill="#e8d6b8"/>
+              <rect x="-42" y="-6" width="28" height="12" rx="2" fill="#5f8fc4"/><rect x="14" y="-6" width="28" height="12" rx="2" fill="#5f8fc4"/>
+            </g>
+            <path d="M262 56 214 104" stroke="#d9a066" stroke-width="2" stroke-dasharray="3 5"/>
+            <rect x="160" y="88" width="76" height="104" rx="12" fill="#1d3550" stroke="#5f8fc4" stroke-width="2"/>
+            <rect x="170" y="100" width="56" height="80" rx="4" fill="#24476b"/>
+            <path d="M198 116c-9 0-15 7-15 15 0 11 15 25 15 25s15-14 15-25c0-8-6-15-15-15z" fill="#d9a066"/>
+            <circle cx="198" cy="131" r="5" fill="#24476b"/>
+            <text x="36" y="44" fill="#9fc2e8" font-family="Montserrat, sans-serif" font-size="12" font-weight="600">6 hidden technologies</text>
+          </svg>
+        </a>
+        <div class="card-head">
+          <div><h3>The Hidden Technologies You Use Every Day</h3><div class="status">29 Sep 2026 · Everyday tech</div></div>
+          <div class="icons"><a href="https://beantechtalk.blogspot.com/2026/09/the-hidden-technologies-you-use-every.html" target="_blank" rel="noopener" title="Read post" aria-label="Read The Hidden Technologies You Use Every Day"><svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </div>
+        <p>Six technologies you use without noticing, starting with the GPS satellites that put the blue dot on your phone's map.</p>
+        <div class="tags"><span>GPS</span><span>Everyday Tech</span><span>Tech Explained</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://beantechtalk.blogspot.com/2026/09/the-wheel-was-by-no-means-first.html" target="_blank" rel="noopener" aria-label="Read: The Wheel Wasn't the First Technology">
+          <svg viewBox="0 0 400 200" role="img" aria-label="A stone flake on a timeline long before the wheel">
+            <rect width="400" height="200" fill="#2a1d12"/>
+            <path d="M40 142H360" stroke="#5c4330" stroke-width="2"/>
+            <g fill="#5c4330"><circle cx="40" cy="142" r="4"/><circle cx="360" cy="142" r="4"/></g>
+            <polygon points="58,120 92,84 118,96 110,128 80,136" fill="#b9a28a"/>
+            <polygon points="70,118 92,92 106,100 100,124" fill="#d6c3ad"/>
+            <g transform="translate(330 104)">
+              <circle r="30" fill="none" stroke="#d9a066" stroke-width="7"/>
+              <circle r="6" fill="#d9a066"/>
+              <g stroke="#d9a066" stroke-width="4"><path d="M0-28V28"/><path d="M-28 0H28"/><path d="M-20-20 20 20"/><path d="M-20 20 20-20"/></g>
+            </g>
+            <text x="200" y="128" fill="#c9ad8f" font-family="Montserrat, sans-serif" font-size="13" text-anchor="middle">· · · millions of years · · ·</text>
+            <g fill="#a8886a" font-family="Montserrat, sans-serif" font-size="11" font-weight="600"><text x="40" y="168">Stone flake</text><text x="360" y="168" text-anchor="end">Wheel</text></g>
+            <text x="40" y="46" fill="#f4ece3" font-family="Montserrat, sans-serif" font-size="18" font-weight="500">What came first?</text>
+          </svg>
+        </a>
+        <div class="card-head">
+          <div><h3>The Wheel Wasn't the First Technology</h3><div class="status">22 Sep 2026 · History of tech</div></div>
+          <div class="icons"><a href="https://beantechtalk.blogspot.com/2026/09/the-wheel-was-by-no-means-first.html" target="_blank" rel="noopener" title="Read post" aria-label="Read The Wheel Wasn't the First Technology"><svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </div>
+        <p>People were using technology for millions of years before anyone built a wheel. Here's what came first: simple stone flakes.</p>
+        <div class="tags"><span>Wheels</span><span>Stone Tools</span><span>History</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://beantechtalk.blogspot.com/2026/09/pencil-technology.html" target="_blank" rel="noopener" aria-label="Read: So Is a Pencil Technology?">
+          <svg viewBox="0 0 400 200" role="img" aria-label="A pencil drawing a question mark">
+            <rect width="400" height="200" fill="#2a2410"/>
+            <g transform="translate(120 150) rotate(-35)">
+              <rect x="0" y="-11" width="190" height="22" fill="#e3b341"/>
+              <rect x="0" y="-11" width="190" height="7" fill="#f0c95c"/>
+              <rect x="190" y="-11" width="22" height="22" fill="#b8b2a6"/>
+              <rect x="212" y="-11" width="20" height="22" rx="4" fill="#e58a8a"/>
+              <polygon points="0,-11 0,11 -30,0" fill="#e8cfa6"/>
+              <polygon points="-20,-4 -20,4 -30,0" fill="#3a3326"/>
+            </g>
+            <path d="M44 92c0-18 14-28 30-28s28 10 28 24c0 16-22 18-22 34" fill="none" stroke="#f4ece3" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="80" cy="140" r="4" fill="#f4ece3"/>
+            <text x="356" y="186" fill="#c8b46a" font-family="Montserrat, sans-serif" font-size="12" font-weight="600" text-anchor="end">Is this technology?</text>
+          </svg>
+        </a>
+        <div class="card-head">
+          <div><h3>So Is a Pencil Technology?</h3><div class="status">6 Sep 2026 · Rethinking objects</div></div>
+          <div class="icons"><a href="https://beantechtalk.blogspot.com/2026/09/pencil-technology.html" target="_blank" rel="noopener" title="Read post" aria-label="Read So Is a Pencil Technology?"><svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </div>
+        <p>Rethinking everyday objects: why a humble pencil counts as technology once you look at how it is designed and made.</p>
+        <div class="tags"><span>Pencils</span><span>Everyday Objects</span><span>Design</span></div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="https://beantechtalk.blogspot.com/2026/08/what-is-technology.html" target="_blank" rel="noopener" aria-label="Read: What Is Technology, Really?">
+          <svg viewBox="0 0 400 200" role="img" aria-label="The Greek roots of the word technology">
+            <rect width="400" height="200" fill="#1f1830"/>
+            <g font-family="Georgia, 'Times New Roman', serif" text-anchor="middle">
+              <text x="122" y="104" fill="#f4ece3" font-size="38">τέχνη</text>
+              <text x="200" y="102" fill="#8f7fb8" font-size="30">+</text>
+              <text x="282" y="104" fill="#f4ece3" font-size="38">λογία</text>
+            </g>
+            <g font-family="Montserrat, sans-serif" font-size="12" text-anchor="middle" fill="#b9a9e0">
+              <text x="122" y="130">craft, skill</text><text x="282" y="130">study of</text>
+            </g>
+            <path d="M80 158H320" stroke="#3b2f57" stroke-width="2"/>
+            <text x="200" y="182" fill="#d9a066" font-family="Montserrat, sans-serif" font-size="13" font-weight="600" text-anchor="middle">→ technology</text>
+          </svg>
+        </a>
+        <div class="card-head">
+          <div><h3>What Is Technology, Really?</h3><div class="status">4 Aug 2026 · Word origins</div></div>
+          <div class="icons"><a href="https://beantechtalk.blogspot.com/2026/08/what-is-technology.html" target="_blank" rel="noopener" title="Read post" aria-label="Read What Is Technology, Really?"><svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </div>
+        <p>Tracing the word from Ancient Greek to Silicon Valley, and how its meaning has shifted along the way.</p>
+        <div class="tags"><span>Etymology</span><span>Tech History</span><span>Definitions</span></div>
+      </article>
+    </div>
+    <a class="more" href="https://beantechtalk.blogspot.com/" target="_blank" rel="noopener">Read all posts on The Easy Byte <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </section>
+
+  <section id="contact" class="contact">
+    <div>
+      <h2 class="title">Ready to unlock some insights? 📊</h2>
+      <p class="lead">Let’s sync up and map out how to turn your current numbers into your next big win. 🚀 Let's trade ideas over a quick chat-roast. ☕</p>
+    </div>
+    <div class="contact-list">
+      <div class="ci"><span class="em" aria-hidden="true">📧</span><span><span class="k">Email</span><span class="v" id="email">sangavisambathkumar@gmail.com</span></span><button class="copy" id="copy-email" type="button">Copy</button></div>
+      <a class="ci" href="https://www.linkedin.com/in/sangavisambathkumar/" target="_blank" rel="noopener"><span class="em" aria-hidden="true">💼</span><span><span class="k">LinkedIn</span><span class="v">in/sangavisambathkumar</span></span></a>
+      <a class="ci" href="https://github.com/Sangavisambathkumar" target="_blank" rel="noopener"><span class="em" aria-hidden="true">💻</span><span><span class="k">GitHub</span><span class="v">Sangavisambathkumar</span></span></a>
+      <a class="ci" href="https://beantechtalk.blogspot.com/" target="_blank" rel="noopener"><span class="em" aria-hidden="true">✍️</span><span><span class="k">Blog</span><span class="v">The Easy Byte</span></span></a>
+      <div class="ci"><span class="em" aria-hidden="true">📍</span><span><span class="k">Location</span><span class="v">Mississauga, Ontario</span></span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Sangavi Sambath Kumar</span>
+    <span>Brewed with data and coffee ☕</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById("copy-email"), email = document.getElementById("email");
+  btn.addEventListener("click", function () {
+    function selectIt() { var r = document.createRange(); r.selectNodeContents(email); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected"; }
+    try { navigator.clipboard.writeText(email.textContent.trim()).then(function () { btn.textContent = "Copied"; }, selectIt); } catch (e) { selectIt(); }
+    setTimeout(function () { btn.textContent = "Copy"; }, 2000);
+  });
+
+  var root = document.documentElement, tbtn = document.getElementById("theme"), ticon = document.getElementById("theme-icon");
+  function isDark() { var t = root.getAttribute("data-theme"); if (t) return t === "dark"; return !matchMedia("(prefers-color-scheme: light)").matches; }
+  function sync() { ticon.setAttribute("href", isDark() ? "#i-sun" : "#i-moon"); }
+  try { var saved = localStorage.getItem("theme"); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
+  sync();
+  tbtn.addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark"; root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    sync();
+  });
+
+  // highlight the nav item for the section in view
+  var links = Array.prototype.slice.call(document.querySelectorAll(".nav a"));
+  var map = { home: "home", about: "home", experience: "experience", education: "experience", certifications: "experience", skills: "experience", projects: "projects", blogs: "blogs", contact: "contact" };
+  function setActive(key) { links.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + key); }); }
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setActive(map[e.target.id] || "home"); });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    Object.keys(map).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+})();
+</script>
+
+</body>
+</html>
